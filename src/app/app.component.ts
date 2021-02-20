@@ -1,27 +1,38 @@
-import { RedirectRequest } from '@azure/msal-browser';
-import { AuthenticationResult, PopupRequest, InteractionType } from '@azure/msal-browser';
+
+import { AuthenticationResult } from '@azure/msal-browser';
 import { MsalService } from '@azure/msal-angular';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   title = 'My Microsoft Login- Example';
 
   constructor(private authService: MsalService) {
 
   }
+  ngOnInit(): void {
+    this.authService.instance.handleRedirectPromise().then( res => {
+      if (res != null && res.account != null) {
+        this.authService.instance.setActiveAccount(res.account)
+      }
+    })
+  }
 
   isLoggedIn(): boolean {
-    return this.authService.instance.getAllAccounts().length > 0
+    return this.authService.instance.getActiveAccount() != null
   }
 
   login() {
+    // this.authService.loginRedirect({
+    //   scopes: [],
+    //   redirectUri: 'http://localhost:4200/restricted-page'
+    // });
+
     this.authService.loginPopup()
       .subscribe((response: AuthenticationResult) => {
         this.authService.instance.setActiveAccount(response.account);
@@ -29,6 +40,8 @@ export class AppComponent {
   }
 
   logout() {
-    this.authService.logout({postLogoutRedirectUri: "http://localhost:4200"});
+    this.authService.logout({
+      account: this.authService.instance.getActiveAccount()
+    })
   }
 }
