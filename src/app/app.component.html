@@ -1,0 +1,5 @@
+<a [routerLink]="['/public-page']" routerLinkActive="true" >public-page</a> <span> ----- </span>
+<a [routerLink]="['/restricted-page']" routerLinkActive="true" >restricted-page</a> <span> ----- </span>
+<button (click)="login()" *ngIf="!isLoggedIn()">SIGN IN</button>
+<button (click)="logout()" *ngIf="isLoggedIn()">SIGN OUT</button>
+<router-outlet></router-outlet>
