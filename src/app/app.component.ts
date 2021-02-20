@@ -28,10 +28,7 @@ export class AppComponent implements OnInit {
   }
 
   login() {
-    // this.authService.loginRedirect({
-    //   scopes: [],
-    //   redirectUri: 'http://localhost:4200/restricted-page'
-    // });
+    // this.authService.loginRedirect();
 
     this.authService.loginPopup()
       .subscribe((response: AuthenticationResult) => {
