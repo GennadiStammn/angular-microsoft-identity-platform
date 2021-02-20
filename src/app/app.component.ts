@@ -37,8 +37,6 @@ export class AppComponent implements OnInit {
   }
 
   logout() {
-    this.authService.logout({
-      account: this.authService.instance.getActiveAccount()
-    })
+    this.authService.logout()
   }
 }

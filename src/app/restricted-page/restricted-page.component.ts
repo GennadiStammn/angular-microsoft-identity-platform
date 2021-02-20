@@ -15,7 +15,7 @@ export class RestrictedPageComponent implements OnInit {
       return 'unknown'
     }
 
-    return this.authService.instance.getActiveAccount().username
+    return this.authService.instance.getActiveAccount().name
   }
 
   ngOnInit(): void {
